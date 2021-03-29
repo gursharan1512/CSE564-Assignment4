@@ -13,7 +13,7 @@ public class Lexer {
             i = checkClass(tokenList, i);
         }
         for (UMLClassModule umlClassModel: umlClassModules) {
-            System.out.println(umlClassModel.getClassName()+" "+umlClassModel.getMethodNameList()+" "+umlClassModel.isIfCheck()+" "+umlClassModel.isLoopCheck()+" "+umlClassModel.getClassRelationList());
+            System.out.println(umlClassModel.getClassName()+" "+umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+umlClassModel.getClassRelationList());
         }
     }
 
@@ -47,13 +47,15 @@ public class Lexer {
         if(tokenList.get(i+1).equals("(")) {
             if (tokenList.get(i+2).equals(")")) {
                 if (tokenList.get(i+3).equals("{")) {
-                    umlClassModule.addMethodNameList(tokenList.get(i));
+                    MethodDetails methodDetails = new MethodDetails();
+                    methodDetails.setMethodName(tokenList.get(i));
                     i = i + 4;
                     i = checkAssociation(tokenList, i, umlClassModule);
                     checkInstruction();
-                    i = checkIf(tokenList, i, umlClassModule);
-                    i = checkLoop(tokenList, i, umlClassModule);
+                    i = checkIf(tokenList, i, umlClassModule, methodDetails);
+                    i = checkLoop(tokenList, i, umlClassModule, methodDetails);
                     if (tokenList.get(i).equals("}")) {
+                        umlClassModule.addMethodDetails(methodDetails);
                         i++;
                         return i;
                     }
@@ -68,7 +70,6 @@ public class Lexer {
 
     private int checkAssociation(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule) {
 
-        //System.out.println(tokenList.get(i));
         if(tokenList.get(i).contains(".")) {
             umlClassModule.addClassRelationList(tokenList.get(i)+".Association");
             i++;
@@ -105,7 +106,7 @@ public class Lexer {
         return false;
     }
 
-    private int checkIf(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule) {
+    private int checkIf(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule, MethodDetails methodDetails) {
 
         if(tokenList.get(i).equals("if")) {
             i++;
@@ -114,12 +115,12 @@ public class Lexer {
                     i++;
                 }
                 i++;
-                umlClassModule.setIfCheck(true);
+                methodDetails.setIfCheck(true);
                 if(tokenList.get(i).equals("{")) {
                     i++;
                     i = checkAssociation(tokenList, i, umlClassModule);
-                    i = checkIf(tokenList, i, umlClassModule);
-                    i = checkLoop(tokenList, i, umlClassModule);
+                    i = checkIf(tokenList, i, umlClassModule, methodDetails);
+                    i = checkLoop(tokenList, i, umlClassModule, methodDetails);
                     checkInstruction();
                     if(tokenList.get(i).equals("}")) {
                         i++;
@@ -134,7 +135,7 @@ public class Lexer {
         return i;
     }
 
-    private int checkLoop(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule) {
+    private int checkLoop(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule, MethodDetails methodDetails) {
 
         if(tokenList.get(i).equals("for") || tokenList.get(i).equals("while")) {
             i++;
@@ -143,12 +144,12 @@ public class Lexer {
                     i++;
                 }
                 i++;
-                umlClassModule.setLoopCheck(true);
+                methodDetails.setLoopCheck(true);
                 if(tokenList.get(i).equals("{")) {
                     i++;
                     i = checkAssociation(tokenList, i, umlClassModule);
-                    i = checkIf(tokenList, i, umlClassModule);
-                    i = checkLoop(tokenList, i, umlClassModule);
+                    i = checkIf(tokenList, i, umlClassModule, methodDetails);
+                    i = checkLoop(tokenList, i, umlClassModule, methodDetails);
                     checkInstruction();
                     if(tokenList.get(i).equals("}")) {
                         i++;

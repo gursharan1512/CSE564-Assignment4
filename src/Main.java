@@ -1,6 +1,7 @@
+import javax.swing.*;
 import java.io.*;
 
-public class Main {
+public class Main extends JFrame {
 
     public static void main(String[] args) throws IOException {
 
