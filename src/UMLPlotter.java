@@ -4,12 +4,12 @@ import java.util.Observer;
 
 public class UMLPlotter implements Observer {
 
-    private ArrayList<UMLClassModule> classAttributes = new ArrayList<>();
+    private ArrayList<UMLClassModel> classAttributes = new ArrayList<>();
 
     @Override
     public void update(Observable o, Object arg) {
 //        System.out.println("observers are updated with the change");
-        classAttributes.add((UMLClassModule) arg);
+        classAttributes.add((UMLClassModel) arg);
     }
 
     public void printDetails(){

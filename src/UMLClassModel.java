@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class UMLClassModule {
+public class UMLClassModel {
     private String className;
     private ArrayList<MethodDetails> methodDetailsList;
     private ArrayList<String> classRelationList;
@@ -37,7 +37,7 @@ public class UMLClassModule {
         this.classRelationList.add(classRelation);
     }
 
-    public UMLClassModule() {
+    public UMLClassModel() {
         methodDetailsList = new ArrayList<>();
         classRelationList = new ArrayList<>();
     }

@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
 public class Lexer extends Observable {
 
-    List<UMLClassModule> umlClassModules = new ArrayList<>();
+    List<UMLClassModel> umlClassModels = new ArrayList<>();
 
     public void parseToken(ArrayList<String> tokenList) {
 
@@ -13,7 +12,7 @@ public class Lexer extends Observable {
             checkInstruction();
             i = checkClass(tokenList, i);
         }
-        for (UMLClassModule umlClassModel: umlClassModules) {
+        for (UMLClassModel umlClassModel: umlClassModels) {
             System.out.println(umlClassModel.getClassName()+" "+umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+umlClassModel.getClassRelationList());
         }
     }
@@ -21,21 +20,21 @@ public class Lexer extends Observable {
     private int checkClass(ArrayList<String> tokenList, int i) {
 
         if(tokenList.get(i).equals("class")) {
-            UMLClassModule umlClassModule = new UMLClassModule();
+            UMLClassModel umlClassModel = new UMLClassModel();
             i++;
-            umlClassModule.setClassName(tokenList.get(i));
+            umlClassModel.setClassName(tokenList.get(i));
             i++;
             if(tokenList.get(i).equals("{")) {
                 i++;
                 while(!tokenList.get(i).equals("}")) {
-                    i = checkAggregation(tokenList, i, umlClassModule);
-                    i = checkMethod(tokenList, i, umlClassModule);
+                    i = checkAggregation(tokenList, i, umlClassModel);
+                    i = checkMethod(tokenList, i, umlClassModel);
                 }
                 if(tokenList.get(i).equals("}")) {
-                    umlClassModules.add(umlClassModule);
+                    umlClassModels.add(umlClassModel);
 //                    System.out.println("notifying the observers");
                     setChanged();
-                    notifyObservers(umlClassModule);
+                    notifyObservers(umlClassModel);
                     return i;
                 }
                 else {
@@ -46,7 +45,7 @@ public class Lexer extends Observable {
         return i;
     }
 
-    private int checkMethod(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule) {
+    private int checkMethod(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
 
         if(tokenList.get(i+1).equals("(")) {
             if (tokenList.get(i+2).equals(")")) {
@@ -54,12 +53,12 @@ public class Lexer extends Observable {
                     MethodDetails methodDetails = new MethodDetails();
                     methodDetails.setMethodName(tokenList.get(i));
                     i = i + 4;
-                    i = checkAssociation(tokenList, i, umlClassModule);
+                    i = checkAssociation(tokenList, i, umlClassModel);
                     checkInstruction();
-                    i = checkIf(tokenList, i, umlClassModule, methodDetails);
-                    i = checkLoop(tokenList, i, umlClassModule, methodDetails);
+                    i = checkIf(tokenList, i, umlClassModel, methodDetails);
+                    i = checkLoop(tokenList, i, umlClassModel, methodDetails);
                     if (tokenList.get(i).equals("}")) {
-                        umlClassModule.addMethodDetails(methodDetails);
+                        umlClassModel.addMethodDetails(methodDetails);
                         i++;
                         return i;
                     }
@@ -72,10 +71,10 @@ public class Lexer extends Observable {
         return i;
     }
 
-    private int checkAssociation(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule) {
+    private int checkAssociation(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
 
         if(tokenList.get(i).contains(".")) {
-            umlClassModule.addClassRelationList(tokenList.get(i)+".Association");
+            umlClassModel.addClassRelationList(tokenList.get(i)+".Association");
             i++;
             if(tokenList.get(i).equals("(")) {
                 i++;
@@ -88,11 +87,11 @@ public class Lexer extends Observable {
         return i;
     }
 
-    private int checkAggregation(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule) {
+    private int checkAggregation(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
 
         //System.out.println(tokenList.get(i));
         if(tokenList.get(i).contains(".")) {
-            umlClassModule.addClassRelationList(tokenList.get(i)+".Aggregation");
+            umlClassModel.addClassRelationList(tokenList.get(i)+".Aggregation");
             i++;
             if(tokenList.get(i).equals("(")) {
                 i++;
@@ -110,7 +109,7 @@ public class Lexer extends Observable {
         return false;
     }
 
-    private int checkIf(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule, MethodDetails methodDetails) {
+    private int checkIf(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel, MethodDetails methodDetails) {
 
         if(tokenList.get(i).equals("if")) {
             i++;
@@ -122,9 +121,9 @@ public class Lexer extends Observable {
                 methodDetails.setIfCheck(true);
                 if(tokenList.get(i).equals("{")) {
                     i++;
-                    i = checkAssociation(tokenList, i, umlClassModule);
-                    i = checkIf(tokenList, i, umlClassModule, methodDetails);
-                    i = checkLoop(tokenList, i, umlClassModule, methodDetails);
+                    i = checkAssociation(tokenList, i, umlClassModel);
+                    i = checkIf(tokenList, i, umlClassModel, methodDetails);
+                    i = checkLoop(tokenList, i, umlClassModel, methodDetails);
                     checkInstruction();
                     if(tokenList.get(i).equals("}")) {
                         i++;
@@ -139,7 +138,7 @@ public class Lexer extends Observable {
         return i;
     }
 
-    private int checkLoop(ArrayList<String> tokenList, int i, UMLClassModule umlClassModule, MethodDetails methodDetails) {
+    private int checkLoop(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel, MethodDetails methodDetails) {
 
         if(tokenList.get(i).equals("for") || tokenList.get(i).equals("while")) {
             i++;
@@ -151,9 +150,9 @@ public class Lexer extends Observable {
                 methodDetails.setLoopCheck(true);
                 if(tokenList.get(i).equals("{")) {
                     i++;
-                    i = checkAssociation(tokenList, i, umlClassModule);
-                    i = checkIf(tokenList, i, umlClassModule, methodDetails);
-                    i = checkLoop(tokenList, i, umlClassModule, methodDetails);
+                    i = checkAssociation(tokenList, i, umlClassModel);
+                    i = checkIf(tokenList, i, umlClassModel, methodDetails);
+                    i = checkLoop(tokenList, i, umlClassModel, methodDetails);
                     checkInstruction();
                     if(tokenList.get(i).equals("}")) {
                         i++;
