@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 
-public class Lexer {
+public class Lexer extends Observable {
 
     List<UMLClassModule> umlClassModules = new ArrayList<>();
 
@@ -32,6 +33,9 @@ public class Lexer {
                 }
                 if(tokenList.get(i).equals("}")) {
                     umlClassModules.add(umlClassModule);
+//                    System.out.println("notifying the observers");
+                    setChanged();
+                    notifyObservers(umlClassModule);
                     return i;
                 }
                 else {

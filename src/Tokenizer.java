@@ -37,7 +37,10 @@ public class Tokenizer {
         System.out.println(lineTokens);
 
         Lexer lexer = new Lexer();
+        UMLPlotter umlPlotter = new UMLPlotter();
+        lexer.addObserver(umlPlotter);
         lexer.parseToken(lineTokens);
+        umlPlotter.printDetails();
     }
 
     /**
