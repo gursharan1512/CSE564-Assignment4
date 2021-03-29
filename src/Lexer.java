@@ -5,6 +5,7 @@ import java.util.Observable;
 public class Lexer extends Observable {
 
     List<UMLClassModel> umlClassModels = new ArrayList<>();
+    int classCount = 1;
 
     public void parseToken(ArrayList<String> tokenList) {
 
@@ -12,9 +13,9 @@ public class Lexer extends Observable {
             checkInstruction();
             i = checkClass(tokenList, i);
         }
-        for (UMLClassModel umlClassModel: umlClassModels) {
-            System.out.println(umlClassModel.getClassName()+" "+umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+umlClassModel.getClassRelationList());
-        }
+//        for (UMLClassModel umlClassModel: umlClassModels) {
+//            System.out.println(umlClassModel.getClassName()+" "+umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+umlClassModel.getClassRelationList());
+//        }
     }
 
     private int checkClass(ArrayList<String> tokenList, int i) {
@@ -23,6 +24,16 @@ public class Lexer extends Observable {
             UMLClassModel umlClassModel = new UMLClassModel();
             i++;
             umlClassModel.setClassName(tokenList.get(i));
+            if (classCount < 4) {
+                umlClassModel.setxAxis((classCount - 1) * 450 + 10);
+                umlClassModel.setyAxis(10);
+                classCount++;
+            }
+            else {
+                umlClassModel.setxAxis((classCount - 4) * 450 + 10);
+                umlClassModel.setyAxis(400);
+                classCount++;
+            }
             i++;
             if(tokenList.get(i).equals("{")) {
                 i++;

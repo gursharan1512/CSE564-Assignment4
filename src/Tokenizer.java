@@ -9,9 +9,9 @@ public class Tokenizer {
     boolean isDoubleOperator = false;
     static final List<Character> OPERATOR_DELIMITER_LIST = Arrays.asList('=',',','(',')','{','}',';','+','-','*','/','%', '>', '<', '[', ']');
 
-    public void getTokens(String inputCode) {
+    public ArrayList<String> getTokens(String inputCode) {
 
-        System.out.println(inputCode);
+        //System.out.println(inputCode);
 
         int charPosition = 0;
         char[] inputChar = inputCode.toCharArray();
@@ -34,13 +34,7 @@ public class Tokenizer {
             lineTokens.add(inputCode.substring(charPosition));
         }
 
-        System.out.println(lineTokens);
-
-        Lexer lexer = new Lexer();
-        UMLPlotter umlPlotter = new UMLPlotter();
-        lexer.addObserver(umlPlotter);
-        lexer.parseToken(lineTokens);
-        umlPlotter.printDetails();
+        return lineTokens;
     }
 
     /**

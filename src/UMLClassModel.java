@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class UMLClassModel {
     private String className;
+    private int xAxis;
+    private int yAxis;
     private ArrayList<MethodDetails> methodDetailsList;
     private ArrayList<String> classRelationList;
 
@@ -17,6 +19,14 @@ public class UMLClassModel {
         return classRelationList;
     }
 
+    public int getxAxis() {
+        return xAxis;
+    }
+
+    public int getyAxis() {
+        return yAxis;
+    }
+
     public void setClassName(String className) {
         this.className = className;
     }
@@ -27,6 +37,14 @@ public class UMLClassModel {
 
     public void setClassRelationList(ArrayList<String> classRelation) {
         this.classRelationList = classRelationList;
+    }
+
+    public void setxAxis(int xAxis) {
+        this.xAxis = xAxis;
+    }
+
+    public void setyAxis(int yAxis) {
+        this.yAxis = yAxis;
     }
 
     public void addMethodDetails(MethodDetails methodDetails) {

@@ -3,8 +3,7 @@ float whatever, a, b;
 char something;
 
 class anyNameIsOk {
-	A.home()
-	C.home()
+	D.home()
 	main () {
 		if( 1=1) {
 			if (wxy=123) {
@@ -28,6 +27,32 @@ class anyNameIsOk {
 class B {
 	home () {
 		while (a=b) {
+		}
+	}
+}
+
+class C {
+	home () {
+		if (a=b) {
+		}
+	}
+	home () {
+		while (a=b) {
+		}
+	}
+	home () {
+		if (a=b) {
+		}
+	}
+	home () {
+		while (a=b) {
+		}
+	}
+}
+
+class D {
+	home () {
+		if (a=b) {
 		}
 	}
 }
