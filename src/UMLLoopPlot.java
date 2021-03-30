@@ -9,18 +9,19 @@ public class UMLLoopPlot extends DecoratorPlot {
     public void draw(Graphics g, UMLClassModel umlClassModel) {
         super.draw(g, umlClassModel);
         g.setColor(Color.PINK);
-        int x = umlClassModel.getxAxis();
+        int x = umlClassModel.getxAxis() + 30;
         int y = umlClassModel.getyAxis();
-        int z = y;
+        int z = y + 60;
         //int methodCount = umlClassModel.getMethodDetailsList().size();
         ArrayList<MethodDetails> methodDetails = umlClassModel.getMethodDetailsList();
-        for ( MethodDetails methodDetail: methodDetails) {
+        int radiusOfCircle = umlClassModel.getHeightOfComponent() - Constants.MARGIN;
+        for (MethodDetails methodDetail : methodDetails) {
             if (methodDetail.isLoopCheck()) {
-                g.fillOval(x + 30, z + 60, 35, 35);
-                g.drawOval(x + 30, z + 60, 35, 35);
+                g.fillOval(x, z, radiusOfCircle, radiusOfCircle);
+                g.drawOval(x, z, radiusOfCircle, radiusOfCircle);
 
             }
-            z = z + 60;
+            z = z + radiusOfCircle + Constants.MARGIN;
         }
 
     }

@@ -4,6 +4,7 @@ public class UMLClassModel {
     private String className;
     private int xAxis;
     private int yAxis;
+    private int heightOfComponent;
     private ArrayList<MethodDetails> methodDetailsList;
     private ArrayList<String> classRelationList;
 
@@ -55,7 +56,16 @@ public class UMLClassModel {
         this.classRelationList.add(classRelation);
     }
 
+    public int getHeightOfComponent() {
+        return heightOfComponent;
+    }
+
+    public void setHeightOfComponent(int heightOfComponent) {
+        this.heightOfComponent = heightOfComponent;
+    }
+
     public UMLClassModel() {
+        this.heightOfComponent = 45;
         methodDetailsList = new ArrayList<>();
         classRelationList = new ArrayList<>();
     }

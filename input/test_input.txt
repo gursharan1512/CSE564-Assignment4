@@ -5,30 +5,47 @@ char something;
 class anyNameIsOk {
 	D.home()
 	main () {
+	ddfcdasc;
+	fvdasav;
+	D.home()
+
 		if( 1=1) {
 			if (wxy=123) {
 				while(a1 == x7 ) {
 					B.home()
+					gfyurguygf;
+					frvrvrvr;
 				}
 			}
 		}
 	}
 	main2 () {
-		if( 1=1) {
-			if (wxy=123) {
-				while(a1 == x7 ) {
-					B.home2()
-				}
-			}
-		}
+
 	}
+	main () {
+    		if( 1=1) {
+    			if (wxy=123) {
+    				while(a1 == x7 ) {
+    					B.home()
+    				}
+    			}
+    		}
+    	}
+    	main2 () {
+
+    	}
+
+
+
 }
 
 class B {
 	home () {
-		while (a=b) {
-		}
 	}
+}
+
+
+class W {
 }
 
 class C {
@@ -48,11 +65,34 @@ class C {
 		while (a=b) {
 		}
 	}
+	home () {
+    		if (a=b) {
+    		}
+    	}
+    	home () {
+    		while (a=b) {
+    		}
+    	}home () {
+         		if (a=b) {
+         		}
+         	}
+         	home () {
+         		while (a=b) {
+         		}
+         	}
 }
 
 class D {
 	home () {
-		if (a=b) {
-		}
-	}
+    		if (a=b) {
+    		}
+    	}
+}
+
+
+class DS {
+	home () {
+    		while (a=b) {
+    		}
+    	}
 }

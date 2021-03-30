@@ -10,7 +10,7 @@ public class Lexer extends Observable {
     public void parseToken(ArrayList<String> tokenList) {
 
         for (int i = 0; i < tokenList.size(); i++) {
-            checkInstruction();
+            i = checkInstruction(tokenList, i);
             i = checkClass(tokenList, i);
         }
 //        for (UMLClassModel umlClassModel: umlClassModels) {
@@ -20,7 +20,7 @@ public class Lexer extends Observable {
 
     private int checkClass(ArrayList<String> tokenList, int i) {
 
-        if(tokenList.get(i).equals("class")) {
+        if (tokenList.get(i).equals("class")) {
             UMLClassModel umlClassModel = new UMLClassModel();
             i++;
             umlClassModel.setClassName(tokenList.get(i));
@@ -28,27 +28,25 @@ public class Lexer extends Observable {
                 umlClassModel.setxAxis((classCount - 1) * 450 + 10);
                 umlClassModel.setyAxis(10);
                 classCount++;
-            }
-            else {
+            } else {
                 umlClassModel.setxAxis((classCount - 4) * 450 + 10);
                 umlClassModel.setyAxis(400);
                 classCount++;
             }
             i++;
-            if(tokenList.get(i).equals("{")) {
+            if (tokenList.get(i).equals("{")) {
                 i++;
-                while(!tokenList.get(i).equals("}")) {
+                while (!tokenList.get(i).equals("}")) {
                     i = checkAggregation(tokenList, i, umlClassModel);
                     i = checkMethod(tokenList, i, umlClassModel);
                 }
-                if(tokenList.get(i).equals("}")) {
+                if (tokenList.get(i).equals("}")) {
                     umlClassModels.add(umlClassModel);
 //                    System.out.println("notifying the observers");
                     setChanged();
                     notifyObservers(umlClassModel);
                     return i;
-                }
-                else {
+                } else {
                     throw new RuntimeException("Invalid Syntax");
                 }
             }
@@ -58,22 +56,23 @@ public class Lexer extends Observable {
 
     private int checkMethod(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
 
-        if(tokenList.get(i+1).equals("(")) {
-            if (tokenList.get(i+2).equals(")")) {
-                if (tokenList.get(i+3).equals("{")) {
+        if (tokenList.get(i + 1).equals("(")) {
+            if (tokenList.get(i + 2).equals(")")) {
+                if (tokenList.get(i + 3).equals("{")) {
                     MethodDetails methodDetails = new MethodDetails();
                     methodDetails.setMethodName(tokenList.get(i));
                     i = i + 4;
-                    i = checkAssociation(tokenList, i, umlClassModel);
-                    checkInstruction();
-                    i = checkIf(tokenList, i, umlClassModel, methodDetails);
-                    i = checkLoop(tokenList, i, umlClassModel, methodDetails);
+                    while (!tokenList.get(i).equals("}")){
+                        i = checkAssociation(tokenList, i, umlClassModel);
+                        i = checkInstruction(tokenList, i);
+                        i = checkIf(tokenList, i, umlClassModel, methodDetails);
+                        i = checkLoop(tokenList, i, umlClassModel, methodDetails);
+                    }
                     if (tokenList.get(i).equals("}")) {
                         umlClassModel.addMethodDetails(methodDetails);
                         i++;
                         return i;
-                    }
-                    else {
+                    } else {
                         throw new RuntimeException("Invalid Syntax");
                     }
                 }
@@ -84,10 +83,10 @@ public class Lexer extends Observable {
 
     private int checkAssociation(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
 
-        if(tokenList.get(i).contains(".")) {
-            umlClassModel.addClassRelationList(tokenList.get(i)+".Association");
+        if (tokenList.get(i).contains(".")) {
+            umlClassModel.addClassRelationList(tokenList.get(i) + ".Association");
             i++;
-            if(tokenList.get(i).equals("(")) {
+            if (tokenList.get(i).equals("(")) {
                 i++;
                 if (tokenList.get(i).equals(")")) {
                     i++;
@@ -101,10 +100,10 @@ public class Lexer extends Observable {
     private int checkAggregation(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
 
         //System.out.println(tokenList.get(i));
-        if(tokenList.get(i).contains(".")) {
-            umlClassModel.addClassRelationList(tokenList.get(i)+".Aggregation");
+        if (tokenList.get(i).contains(".")) {
+            umlClassModel.addClassRelationList(tokenList.get(i) + ".Aggregation");
             i++;
-            if(tokenList.get(i).equals("(")) {
+            if (tokenList.get(i).equals("(")) {
                 i++;
                 if (tokenList.get(i).equals(")")) {
                     i++;
@@ -115,32 +114,40 @@ public class Lexer extends Observable {
         return i;
     }
 
-    private boolean checkInstruction() {
-
-        return false;
+    private int checkInstruction(ArrayList<String> tokenList, int i) {
+        while (!tokenList.get(i).equals("if") && !tokenList.get(i).equals("while") && !tokenList.get(i).equals("for") && !tokenList.get(i).equals("class") && !tokenList.get(i).equals("}") && !tokenList.get(i).contains(".")) {
+            i++;
+            while (!tokenList.get(i).equals(";")){
+                i++;
+            }
+            i++;
+        }
+        return i;
     }
 
     private int checkIf(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel, MethodDetails methodDetails) {
 
-        if(tokenList.get(i).equals("if")) {
+        if (tokenList.get(i).equals("if")) {
             i++;
-            if(tokenList.get(i).equals("(")) {
-                while(!tokenList.get(i).equals(")")) {
+            if (tokenList.get(i).equals("(")) {
+                while (!tokenList.get(i).equals(")")) {
                     i++;
                 }
                 i++;
                 methodDetails.setIfCheck(true);
-                if(tokenList.get(i).equals("{")) {
+                if (tokenList.get(i).equals("{")) {
                     i++;
-                    i = checkAssociation(tokenList, i, umlClassModel);
-                    i = checkIf(tokenList, i, umlClassModel, methodDetails);
-                    i = checkLoop(tokenList, i, umlClassModel, methodDetails);
-                    checkInstruction();
-                    if(tokenList.get(i).equals("}")) {
+                    while (!tokenList.get(i).equals("}")) {
+
+                        i = checkAssociation(tokenList, i, umlClassModel);
+                        i = checkIf(tokenList, i, umlClassModel, methodDetails);
+                        i = checkLoop(tokenList, i, umlClassModel, methodDetails);
+                        i = checkInstruction(tokenList, i);
+                    }
+                    if (tokenList.get(i).equals("}")) {
                         i++;
                         return i;
-                    }
-                    else {
+                    } else {
                         throw new RuntimeException("Invalid Syntax");
                     }
                 }
@@ -151,25 +158,27 @@ public class Lexer extends Observable {
 
     private int checkLoop(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel, MethodDetails methodDetails) {
 
-        if(tokenList.get(i).equals("for") || tokenList.get(i).equals("while")) {
+        if (tokenList.get(i).equals("for") || tokenList.get(i).equals("while")) {
             i++;
-            if(tokenList.get(i).equals("(")) {
+            if (tokenList.get(i).equals("(")) {
                 while (!tokenList.get(i).equals(")")) {
                     i++;
                 }
                 i++;
                 methodDetails.setLoopCheck(true);
-                if(tokenList.get(i).equals("{")) {
+                if (tokenList.get(i).equals("{")) {
                     i++;
-                    i = checkAssociation(tokenList, i, umlClassModel);
-                    i = checkIf(tokenList, i, umlClassModel, methodDetails);
-                    i = checkLoop(tokenList, i, umlClassModel, methodDetails);
-                    checkInstruction();
-                    if(tokenList.get(i).equals("}")) {
+                    while (!tokenList.get(i).equals("}")) {
+
+                        i = checkAssociation(tokenList, i, umlClassModel);
+                        i = checkIf(tokenList, i, umlClassModel, methodDetails);
+                        i = checkLoop(tokenList, i, umlClassModel, methodDetails);
+                        i = checkInstruction(tokenList, i);
+                    }
+                    if (tokenList.get(i).equals("}")) {
                         i++;
                         return i;
-                    }
-                    else {
+                    } else {
                         throw new RuntimeException("Invalid Syntax");
                     }
                 }

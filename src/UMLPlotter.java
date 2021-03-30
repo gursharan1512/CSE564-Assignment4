@@ -10,18 +10,55 @@ public class UMLPlotter extends JPanel implements Observer {
 
     @Override
     protected void paintComponent(Graphics g) {
-        Drawable umlBasicPlot = new UMLConditionPlot(new UMLLoopPlot(new UMLBasicPlot()));
-        for(UMLClassModel classAttribute: classAttributes) {
-            umlBasicPlot.draw(g,classAttribute);
-            if (classAttribute.getClassRelationList() != null) {
-                for (String classRelation : classAttribute.getClassRelationList()) {
-                    String[] strArr = classRelation.split("\\.");
-                    drawLine(classAttribute, strArr[0], strArr[2], g);
+        Drawable umlBasicPlot = new UMLBasicPlot();
+        Drawable umlMethodPlot = new UMLMethodPlot(umlBasicPlot);
+        Drawable umlLoopPlot = new UMLLoopPlot(umlMethodPlot);
+        Drawable umlConditionPlot = new UMLConditionPlot(umlLoopPlot);
+        for (UMLClassModel classAttribute : classAttributes) {
+            if (!classAttribute.getMethodDetailsList().isEmpty()) {
+                setUMLDimension(classAttribute);
+                ArrayList<MethodDetails> methodDetails = classAttribute.getMethodDetailsList();
+                boolean methodsAreEmpty = true;
+                for (MethodDetails methodDetail : methodDetails) {
+                    if (methodDetail.isIfCheck()) {
+                        umlConditionPlot.draw(g, classAttribute);
+                        methodsAreEmpty = false;
+                        break;
+                    }
+                    if (methodDetail.isLoopCheck()) {
+                        umlLoopPlot.draw(g, classAttribute);
+                        methodsAreEmpty = false;
+                    }
+
                 }
+                if (methodsAreEmpty) {
+                    umlMethodPlot.draw(g, classAttribute);
+                }
+
+
+            } else {
+                umlBasicPlot.draw(g, classAttribute);
             }
+
         }
     }
 
+    private void setUMLDimension(UMLClassModel classAttribute) {
+        int methodCount = classAttribute.getMethodDetailsList().size();
+        if(methodCount > 4){
+            int heightOfEachMethodUMLBlock = (Constants.HEIGHT_OF_CLASS_UML - 55) / methodCount;
+            classAttribute.setHeightOfComponent(heightOfEachMethodUMLBlock - 5);
+        }
+    }
+
+
+    //
+//    if (classAttribute.getClassRelationList() != null) {
+//        for (String classRelation : classAttribute.getClassRelationList()) {
+//            String[] strArr = classRelation.split("\\.");
+//            drawLine(classAttribute, strArr[0], strArr[2], g);
+//        }
+//    }
     @Override
     public void update(Observable o, Object arg) {
         classAttributes.add((UMLClassModel) arg);
@@ -37,16 +74,16 @@ public class UMLPlotter extends JPanel implements Observer {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(1200, 600);
+        return new Dimension(1200, 800);
     }
 
-    public void printDetails(){
+    public void printDetails() {
         //System.out.println("print observer classes:" + classAttributes);
     }
 
     private void drawLine(UMLClassModel sourceClass, String destClass, String connection, Graphics g) {
         UMLClassModel destClassObj = null;
-        for (UMLClassModel classAttribute: classAttributes) {
+        for (UMLClassModel classAttribute : classAttributes) {
             if (destClass.equals(classAttribute.getClassName())) {
                 destClassObj = classAttribute;
                 break;
