@@ -7,12 +7,20 @@ public class Lexer extends Observable {
     List<UMLClassModel> umlClassModels = new ArrayList<>();
     int classCount = 1;
 
-    public void parseToken(ArrayList<String> tokenList) {
+    public void parseToken(ArrayList<String> tokenList) throws Exception {
 
-        for (int i = 0; i < tokenList.size(); i++) {
-            i = checkInstruction(tokenList, i);
-            i = checkClass(tokenList, i);
+        try {
+            classCount = 1;
+            for (int i = 0; i < tokenList.size(); i++) {
+                i = checkInstruction(tokenList, i);
+                i = checkClass(tokenList, i);
+            }
         }
+        catch (Exception ex) {
+            throw new Exception("Invalid Syntax");
+        }
+        setChanged();
+        notifyObservers(umlClassModels);
 //        for (UMLClassModel umlClassModel: umlClassModels) {
 //            System.out.println(umlClassModel.getClassName()+" "+umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+umlClassModel.getClassRelationList());
 //        }
@@ -43,8 +51,8 @@ public class Lexer extends Observable {
                 if (tokenList.get(i).equals("}")) {
                     umlClassModels.add(umlClassModel);
 //                    System.out.println("notifying the observers");
-                    setChanged();
-                    notifyObservers(umlClassModel);
+//                    setChanged();
+//                    notifyObservers(umlClassModel);
                     return i;
                 } else {
                     throw new RuntimeException("Invalid Syntax");

@@ -67,7 +67,9 @@ public class UMLPlotter extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        classAttributes.add((UMLClassModel) arg);
+        this.removeAll();
+        this.revalidate();
+        classAttributes = (ArrayList<UMLClassModel>) arg;
 //        for (UMLClassModel umlClassModel: classAttributes) {
 //            System.out.println(umlClassModel.getClassName()+" "+
 //                    umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+
@@ -99,7 +101,7 @@ public class UMLPlotter extends JPanel implements Observer {
         }
         if (invalidClassRelationship) {
             try {
-                throw new ClassNotFoundException("NO valid Destination class found with class name: " + destClass);
+                throw new ClassNotFoundException("No valid Destination class found with class name: " + destClass);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

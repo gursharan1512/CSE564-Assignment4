@@ -101,12 +101,16 @@ public class Main extends JFrame implements ActionListener {
             for (String line : inputText.split("\n")) {
                 code.append(line).append(" ");
             }
-            
+
             String inputCode = code.toString().replaceAll("\\s+", " ").trim();
 
             ArrayList<String> tokenList = tokenizer.getTokens(inputCode);
             System.out.println(tokenList);
-            lexer.parseToken(tokenList);
+            try {
+                lexer.parseToken(tokenList);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
         else if (buttonName.equals("Exit")) {
             System.exit(0);

@@ -18,7 +18,7 @@ public class AggregateRelationshipHandler implements UMLCLassJoiner {
             int xpoints1[] = {x1, x1 + 5, x1 + 10, x1 + 5};
             int ypoints1[] = {y1, y1 - 5, y1, y1 + 5};
             int npoints1 = 4;
-            g.fillPolygon(xpoints1, ypoints1, npoints1);
+            //g.fillPolygon(xpoints1, ypoints1, npoints1);
             g.drawPolygon(xpoints1, ypoints1, npoints1);
 
 //            UMLClassModel destClassObj = null;
