@@ -25,11 +25,11 @@ public class Lexer extends Observable {
             i++;
             umlClassModel.setClassName(tokenList.get(i));
             if (classCount < 4) {
-                umlClassModel.setxAxis((classCount - 1) * 450 + 10);
+                umlClassModel.setxAxis((classCount - 1) * 400 + 15);
                 umlClassModel.setyAxis(10);
                 classCount++;
             } else {
-                umlClassModel.setxAxis((classCount - 4) * 450 + 10);
+                umlClassModel.setxAxis((classCount - 4) * 400 + 15);
                 umlClassModel.setyAxis(400);
                 classCount++;
             }
@@ -115,7 +115,13 @@ public class Lexer extends Observable {
     }
 
     private int checkInstruction(ArrayList<String> tokenList, int i) {
+
+//        for(int j = 0; j< 20; j++) {
+//            System.out.println(tokenList.get(i+j));
+//        }
+
         while (!tokenList.get(i).equals("if") && !tokenList.get(i).equals("while") && !tokenList.get(i).equals("for") && !tokenList.get(i).equals("class") && !tokenList.get(i).equals("}") && !tokenList.get(i).contains(".")) {
+            //System.out.println(tokenList.get(i));
             i++;
             while (!tokenList.get(i).equals(";")) {
                 i++;

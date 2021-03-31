@@ -80,7 +80,7 @@ public class UMLPlotter extends JPanel implements Observer {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(1200, 800);
+        return new Dimension(1150, 800);
     }
 
     public void printDetails() {
