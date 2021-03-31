@@ -62,7 +62,7 @@ public class Lexer extends Observable {
                     MethodDetails methodDetails = new MethodDetails();
                     methodDetails.setMethodName(tokenList.get(i));
                     i = i + 4;
-                    while (!tokenList.get(i).equals("}")){
+                    while (!tokenList.get(i).equals("}")) {
                         i = checkAssociation(tokenList, i, umlClassModel);
                         i = checkInstruction(tokenList, i);
                         i = checkIf(tokenList, i, umlClassModel, methodDetails);
@@ -117,7 +117,7 @@ public class Lexer extends Observable {
     private int checkInstruction(ArrayList<String> tokenList, int i) {
         while (!tokenList.get(i).equals("if") && !tokenList.get(i).equals("while") && !tokenList.get(i).equals("for") && !tokenList.get(i).equals("class") && !tokenList.get(i).equals("}") && !tokenList.get(i).contains(".")) {
             i++;
-            while (!tokenList.get(i).equals(";")){
+            while (!tokenList.get(i).equals(";")) {
                 i++;
             }
             i++;

@@ -21,8 +21,8 @@ public class UMLBasicPlot implements Drawable {
 //            // for greater than 4
 //        } else {
 //            int z = y;
-            // System.out.println("size : " + classObj.className + " " + x + " " + y);
-            g.drawRect(x, y, 200, Constants.HEIGHT_OF_CLASS_UML);
+        // System.out.println("size : " + classObj.className + " " + x + " " + y);
+        g.drawRect(x, y, 200, Constants.HEIGHT_OF_CLASS_UML);
 
 //            for (int i = 0; i < methodCount; i++) {
 //                // System.out.println("method");

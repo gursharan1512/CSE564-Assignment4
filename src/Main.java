@@ -1,6 +1,8 @@
 import javax.swing.*;
-import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Main extends JFrame {
 
@@ -21,18 +23,17 @@ public class Main extends JFrame {
 
         if (args.length > 0) {
             new Main(args[0]);
-        }
-        else {
+        } else {
             throw new FileNotFoundException("Please pass a file in argument");
         }
     }
 
-    public String readTextFile (String path) throws IOException {
+    public String readTextFile(String path) throws IOException {
 
         StringBuilder code = new StringBuilder();
         BufferedReader br = new BufferedReader(new FileReader(path));
         String str;
-        while ( (str = br.readLine()) != null) code.append(str).append(" ");
+        while ((str = br.readLine()) != null) code.append(str).append(" ");
 
         return code.toString().replaceAll("\\s+", " ").trim();
     }

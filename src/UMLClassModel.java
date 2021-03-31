@@ -8,40 +8,46 @@ public class UMLClassModel {
     private ArrayList<MethodDetails> methodDetailsList;
     private ArrayList<String> classRelationList;
 
+    public UMLClassModel() {
+        this.heightOfComponent = 45;
+        methodDetailsList = new ArrayList<>();
+        classRelationList = new ArrayList<>();
+    }
+
     public String getClassName() {
         return className;
-    }
-
-    public ArrayList<MethodDetails> getMethodDetailsList() {
-        return methodDetailsList;
-    }
-
-    public ArrayList<String> getClassRelationList() {
-        return classRelationList;
-    }
-
-    public int getxAxis() {
-        return xAxis;
-    }
-
-    public int getyAxis() {
-        return yAxis;
     }
 
     public void setClassName(String className) {
         this.className = className;
     }
 
+    public ArrayList<MethodDetails> getMethodDetailsList() {
+        return methodDetailsList;
+    }
+
     public void setMethodDetailsList(ArrayList<MethodDetails> methodDetailsList) {
         this.methodDetailsList = methodDetailsList;
+    }
+
+    public ArrayList<String> getClassRelationList() {
+        return classRelationList;
     }
 
     public void setClassRelationList(ArrayList<String> classRelation) {
         this.classRelationList = classRelationList;
     }
 
+    public int getxAxis() {
+        return xAxis;
+    }
+
     public void setxAxis(int xAxis) {
         this.xAxis = xAxis;
+    }
+
+    public int getyAxis() {
+        return yAxis;
     }
 
     public void setyAxis(int yAxis) {
@@ -62,11 +68,5 @@ public class UMLClassModel {
 
     public void setHeightOfComponent(int heightOfComponent) {
         this.heightOfComponent = heightOfComponent;
-    }
-
-    public UMLClassModel() {
-        this.heightOfComponent = 45;
-        methodDetailsList = new ArrayList<>();
-        classRelationList = new ArrayList<>();
     }
 }
