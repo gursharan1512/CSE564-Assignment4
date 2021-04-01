@@ -4,10 +4,34 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * class Receives the data from Lexer and generate UML diagram.
+ *
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public class UMLPlotter extends JPanel implements Observer {
 
     private ArrayList<UMLClassModel> classAttributes = new ArrayList<>();
 
+    /**
+     * method is use to get the updated data from observable.
+     * @param o   - object of observable class.
+     * @param arg - Updated input data from observable.
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        this.removeAll();
+        this.revalidate();
+        classAttributes = (ArrayList<UMLClassModel>) arg;
+        this.paint(getGraphics());
+    }
+
+    /**
+     * implements different types of the graphs on the given graphics objects.
+     *
+     * @param g - graphics object to draw plot in.
+     */
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -73,21 +97,24 @@ public class UMLPlotter extends JPanel implements Observer {
         }
     }
 
-
-    @Override
-    public void update(Observable o, Object arg) {
-        this.removeAll();
-        this.revalidate();
-        classAttributes = (ArrayList<UMLClassModel>) arg;
-        this.paint(getGraphics());
-    }
-
+    /**
+     * Sets the height and width of JPanel
+     */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(1150, 800);
     }
 
-
+    /**
+     * Draw UML relation between two source and destination class
+     *
+     * @param sourceClass - Source class object to draw the UML relationship.
+     * @param destClass - Source class object to draw the UML relationship.
+     * @param methodName - destination class method name which source class is using.
+     * @param connection - defines the type of relation between source and destination class like aggregation or association.
+     * @param g - graphics object to draw plot in.
+     * @param joiner1 - parent class for chain of responsibility.
+     */
     private void drawConnection(UMLClassModel sourceClass, String destClass, String methodName, String connection, Graphics g, UMLCLassJoiner joiner1) throws ClassNotFoundException {
         UMLClassModel destClassObj = null;
         boolean invalidClassRelationship = true;

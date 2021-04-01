@@ -6,31 +6,30 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Provides methods to implement graphical user interface for accepting code block and displays final token information.
+ *
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
+
 public class GUI extends JFrame implements ActionListener {
 
-    JTextArea editor;
-    Lexer lexer = new Lexer();
+    private JTextArea editor;
+    private Lexer lexer = new Lexer();
 
     public GUI() throws HeadlessException {
-    }
-
-    public GUI(String path) throws IOException {
         createGui();
     }
 
     public static void main(String[] args) throws IOException {
-
         new GUI();
-        if (args.length > 0) {
-            new GUI(args[0]);
-        } else {
-            throw new FileNotFoundException("Please pass a file in argument");
-        }
     }
 
-
+    /**
+     * creates a GUI base JFrame window to host different JPanels.
+     */
     private void createGui() {
-
         UMLPlotter umlPlotter = new UMLPlotter();
         lexer.addObserver(umlPlotter);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,6 +51,9 @@ public class GUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * This method creates the menu bar which provides option to Run the code.
+     */
     private void createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuFile = new JMenu("File");
@@ -67,6 +69,10 @@ public class GUI extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
     }
 
+    /**
+     * Implements method to pass the input data to tokenizer after clicking Run.
+     * @param e - Action Event in this case clicking of run button.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -75,16 +81,13 @@ public class GUI extends JFrame implements ActionListener {
 
         if (buttonName.equals("Run")) {
             Tokenizer tokenizer = new Tokenizer();
-
             StringBuilder code = new StringBuilder();
-
             for (String line : inputText.split("\n")) {
                 code.append(line).append(" ");
             }
-
             String inputCode = code.toString().replaceAll("\\s+", " ").trim();
-
             ArrayList<String> tokenList = tokenizer.getTokens(inputCode);
+
             try {
                 lexer.parseToken(tokenList);
             } catch (Exception exception) {

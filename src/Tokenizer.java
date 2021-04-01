@@ -2,15 +2,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class implements methods to create tokens from the given block of code.
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public class Tokenizer {
 
-    static final List<Character> OPERATOR_DELIMITER_LIST = Arrays.asList('=', ',', '(', ')', '{', '}', ';', '+', '-', '*', '/', '%', '>', '<', '[', ']');
-    boolean isDoubleOperator = false;
+    private static final List<Character> OPERATOR_DELIMITER_LIST = Arrays.asList('=', ',', '(', ')', '{', '}', ';', '+', '-', '*', '/', '%', '>', '<', '[', ']');
+    private boolean isDoubleOperator = false;
     private ArrayList<String> lineTokens = new ArrayList<>();
     private boolean isString = false;
 
+    /**
+     * Takes given block of code to convert them into tokens.
+     * @param inputCode - Given block of code.
+     * @return List of String tokens.
+     */
     public ArrayList<String> getTokens(String inputCode) {
-
 
         int charPosition = 0;
         char[] inputChar = inputCode.toCharArray();
@@ -31,7 +40,6 @@ public class Tokenizer {
         if (isString) {
             lineTokens.add(inputCode.substring(charPosition));
         }
-
         return lineTokens;
     }
 

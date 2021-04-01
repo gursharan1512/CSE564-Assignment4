@@ -1,17 +1,23 @@
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Class includes method to draw triangles for the if condition inside method.
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public class UMLConditionPlot extends DecoratorPlot {
+
     public UMLConditionPlot(Drawable drawable) {
         super(drawable);
     }
 
+    /**
+     * draws triangle for if conditions inside method
+     * @param g - graphics in which bar needs to be drawn
+     * @param umlClassModel - Model for storing information regarding a class
+     */
     public void draw(Graphics g, UMLClassModel umlClassModel) {
-        addedBehaviour(g, umlClassModel);
-
-    }
-
-    public void addedBehaviour(Graphics g, UMLClassModel umlClassModel) {
         super.draw(g, umlClassModel);
         g.setColor(Color.GREEN);
         int x = umlClassModel.getxAxis();
@@ -32,6 +38,5 @@ public class UMLConditionPlot extends DecoratorPlot {
             }
             z = z + heightOfTriangle + Constants.MARGIN;
         }
-
     }
 }

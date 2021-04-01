@@ -1,3 +1,9 @@
+/**
+ * Model class to store the information of a method in a class
+ *
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public class MethodDetails {
     private String methodName;
     private boolean ifCheck;

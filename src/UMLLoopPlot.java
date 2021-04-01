@@ -1,11 +1,22 @@
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Class includes method to draw circle for the loops inside method.
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public class UMLLoopPlot extends DecoratorPlot {
+
     public UMLLoopPlot(Drawable drawable) {
         super(drawable);
     }
 
+    /**
+     * draws circle for loops inside method
+     * @param g - graphics in which bar needs to be drawn
+     * @param umlClassModel - Model for storing information regarding a class
+     */
     public void draw(Graphics g, UMLClassModel umlClassModel) {
         super.draw(g, umlClassModel);
         g.setColor(Color.PINK);

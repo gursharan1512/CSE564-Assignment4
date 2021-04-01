@@ -1,5 +1,11 @@
 import java.awt.*;
 
+/**
+ * Parent class for joining relationships between the classes.
+ *
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public abstract class UMLCLassJoiner {
 
     public UMLCLassJoiner umlClassJoiner;

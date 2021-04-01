@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * Model class to store all the information of a class
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public class UMLClassModel {
+
     private String className;
     private int xAxis;
     private int yAxis;

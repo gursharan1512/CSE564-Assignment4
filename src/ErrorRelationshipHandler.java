@@ -1,5 +1,11 @@
 import java.awt.*;
 
+/**
+ * Error handler for handling relationship errors between classes
+ *
+ * @author Gursharanjit Singh Ghotra
+ * @author Manthan Agrawal
+ */
 public class ErrorRelationshipHandler extends UMLCLassJoiner {
 
     @Override
