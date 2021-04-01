@@ -10,19 +10,17 @@ public class Lexer extends Observable {
 
     public void parseToken(ArrayList<String> tokenList) throws Exception {
 
-        //////////////////////////////
         for (int i = 0; i < tokenList.size(); i++) {
             if (tokenList.get(i).equals("class")) {
                 classList.add(tokenList.get(i+1));
             }
         }
-        //////////////////////////////
 
-            classCount = 1;
-            for (int i = 0; i < tokenList.size(); i++) {
-                i = checkInstruction(tokenList, i);
-                i = checkClass(tokenList, i);
-            }
+        classCount = 1;
+        for (int i = 0; i < tokenList.size(); i++) {
+            i = checkInstruction(tokenList, i);
+            i = checkClass(tokenList, i);
+        }
         setChanged();
         notifyObservers(umlClassModels);
     }
@@ -167,6 +165,8 @@ public class Lexer extends Observable {
                         throw new RuntimeException("Invalid Syntax");
                     }
                 }
+                else
+                    throw new RuntimeException("Invalid Syntax");
             }
         }
         return i;
@@ -198,6 +198,8 @@ public class Lexer extends Observable {
                         throw new RuntimeException("Invalid Syntax");
                     }
                 }
+                else
+                    throw new RuntimeException("Invalid Syntax");
             }
         }
         return i;
