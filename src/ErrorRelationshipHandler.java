@@ -1,14 +1,6 @@
 import java.awt.*;
 
-public class ErrorRelationshipHandler implements UMLCLassJoiner {
-
-    private UMLCLassJoiner umlClassJoiner;
-
-    @Override
-    public void setNextUMLClassJoiner(UMLCLassJoiner umlClassJoiner) {
-        this.umlClassJoiner = umlClassJoiner;
-
-    }
+public class ErrorRelationshipHandler extends UMLCLassJoiner {
 
     @Override
     public void drawRelationship(int x1, int y1, int x2, int y2, String connection, Graphics g) {

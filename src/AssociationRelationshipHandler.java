@@ -1,14 +1,7 @@
 import java.awt.*;
 
-public class AssociationRelationshipHandler implements UMLCLassJoiner {
+public class AssociationRelationshipHandler extends UMLCLassJoiner {
 
-    private UMLCLassJoiner umlClassJoiner;
-
-    @Override
-    public void setNextUMLClassJoiner(UMLCLassJoiner umlClassJoiner) {
-        this.umlClassJoiner = umlClassJoiner;
-
-    }
 
     @Override
     public void drawRelationship(int x1, int y1, int x2, int y2, String connection, Graphics g) {
