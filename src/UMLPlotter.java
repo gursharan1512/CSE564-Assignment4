@@ -10,6 +10,7 @@ public class UMLPlotter extends JPanel implements Observer {
 
     @Override
     protected void paintComponent(Graphics g) {
+
         Drawable umlBasicPlot = new UMLBasicPlot();
         Drawable umlMethodPlot = new UMLMethodPlot(umlBasicPlot);
         Drawable umlLoopPlot = new UMLLoopPlot(umlMethodPlot);
@@ -93,11 +94,13 @@ public class UMLPlotter extends JPanel implements Observer {
         for (UMLClassModel classAttribute : classAttributes) {
             if (destClass.equals(classAttribute.getClassName())) {
                 destClassObj = classAttribute;
-                ArrayList<MethodDetails> methodDetails = destClassObj.getMethodDetailsList();
-                for (MethodDetails methodDetail : methodDetails){
-                    if (methodName.equals(methodDetail.getMethodName())){
-                        invalidClassRelationship = false;
-                        break;
+                if (destClassObj != null) {
+                    ArrayList<MethodDetails> methodDetails = destClassObj.getMethodDetailsList();
+                    for (MethodDetails methodDetail : methodDetails) {
+                        if (methodName.equals(methodDetail.getMethodName()) || methodName.startsWith("methd")) {
+                            invalidClassRelationship = false;
+                            break;
+                        }
                     }
                 }
                 break;
@@ -137,6 +140,7 @@ public class UMLPlotter extends JPanel implements Observer {
 
             }
             g.setColor(Color.GREEN);
+            g.drawLine(x1, y1, x2, y2);
             joiner1.drawRelationship(x1, y1, x2, y2, connection, g);
 
         }

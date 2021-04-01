@@ -20,6 +20,7 @@ public class GUI extends JFrame implements ActionListener {
 
     public static void main(String[] args) throws IOException {
 
+        new GUI();
         if (args.length > 0) {
             new GUI(args[0]);
         } else {
@@ -73,7 +74,6 @@ public class GUI extends JFrame implements ActionListener {
         String buttonName = e.getActionCommand();
 
         if (buttonName.equals("Run")) {
-            System.out.println("+++++++++++++++++");
             Tokenizer tokenizer = new Tokenizer();
 
             StringBuilder code = new StringBuilder();
@@ -85,7 +85,6 @@ public class GUI extends JFrame implements ActionListener {
             String inputCode = code.toString().replaceAll("\\s+", " ").trim();
 
             ArrayList<String> tokenList = tokenizer.getTokens(inputCode);
-            System.out.println(tokenList);
             try {
                 lexer.parseToken(tokenList);
             } catch (Exception exception) {

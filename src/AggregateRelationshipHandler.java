@@ -23,15 +23,12 @@ public class AggregateRelationshipHandler implements UMLCLassJoiner {
                 int[] ypoints1 = {y1, y1 - 10, y1, y1 + 10};
                 int npoints1 = 4;
                 g.drawPolygon(xpoints1, ypoints1, npoints1);
-                g.drawLine(x1 + 20, y1, x2, y2);
-
 
             } else {
                 int[] xpoints1 = {x1, x1 - 10, x1 - 20, x1 - 10};
                 int[] ypoints1 = {y1, y1 - 10, y1, y1 + 10};
                 int npoints1 = 4;
                 g.drawPolygon(xpoints1, ypoints1, npoints1);
-                g.drawLine(x1 - 20, y1, x2, y2);
 
             }
 

@@ -28,7 +28,6 @@ public class AssociationRelationshipHandler implements UMLCLassJoiner {
 
             }
 
-            g.drawLine(x1, y1, x2, y2);
         } else {
             umlClassJoiner.drawRelationship(x1, y1, x2, y2, connection, g);
         }

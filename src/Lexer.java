@@ -5,19 +5,24 @@ import java.util.Observable;
 public class Lexer extends Observable {
 
     List<UMLClassModel> umlClassModels = new ArrayList<>();
+    private ArrayList<String> classList = new ArrayList<>();
     int classCount = 1;
 
     public void parseToken(ArrayList<String> tokenList) throws Exception {
 
-        try {
+        //////////////////////////////
+        for (int i = 0; i < tokenList.size(); i++) {
+            if (tokenList.get(i).equals("class")) {
+                classList.add(tokenList.get(i+1));
+            }
+        }
+        //////////////////////////////
+
             classCount = 1;
             for (int i = 0; i < tokenList.size(); i++) {
                 i = checkInstruction(tokenList, i);
                 i = checkClass(tokenList, i);
             }
-        } catch (Exception ex) {
-            throw new Exception("Invalid Syntax");
-        }
         setChanged();
         notifyObservers(umlClassModels);
     }
@@ -42,6 +47,7 @@ public class Lexer extends Observable {
                 i++;
                 while (!tokenList.get(i).equals("}")) {
                     i = checkAggregation(tokenList, i, umlClassModel);
+                    i = checkInstruction(tokenList, i);
                     i = checkMethod(tokenList, i, umlClassModel);
                 }
                 if (tokenList.get(i).equals("}")) {
@@ -77,21 +83,38 @@ public class Lexer extends Observable {
                         throw new RuntimeException("Invalid Syntax");
                     }
                 }
+                else
+                    throw new RuntimeException("Invalid Syntax");
             }
         }
         return i;
     }
 
     private int checkAssociation(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
-
         if (tokenList.get(i).contains(".")) {
-            umlClassModel.addClassRelationList(tokenList.get(i) + ".Association");
+            String className = tokenList.get(i).split("\\.")[0];
+            Boolean flag = false;
+            for (int j = 0; j < umlClassModel.getClassRelationList().size(); j++) {
+                String[] classRelation = umlClassModel.getClassRelationList().get(j).split("\\.");
+                if (classRelation[1].startsWith("methd") && classRelation[1].endsWith(className)) {
+                    umlClassModel.getClassRelationList().set(j,classRelation[0]+"."+tokenList.get(i).split("\\.")[1]+".Aggregation");
+                    flag = false;
+                }
+                else
+                    flag = true;
+            }
+            if (flag) {
+                umlClassModel.addClassRelationList(tokenList.get(i) + ".Association");
+            }
             i++;
             if (tokenList.get(i).equals("(")) {
                 i++;
                 if (tokenList.get(i).equals(")")) {
                     i++;
-                    return i;
+                    if (tokenList.get(i).equals(";")) {
+                        i++;
+                        return i;
+                    }
                 }
             }
         }
@@ -99,25 +122,16 @@ public class Lexer extends Observable {
     }
 
     private int checkAggregation(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
-
-        if (tokenList.get(i).contains(".")) {
-            umlClassModel.addClassRelationList(tokenList.get(i) + ".Aggregation");
-            i++;
-            if (tokenList.get(i).equals("(")) {
-                i++;
-                if (tokenList.get(i).equals(")")) {
-                    i++;
-                    return i;
-                }
-            }
+        if (classList.contains(tokenList.get(i)) && tokenList.get(i+2).equals(";")) {
+            umlClassModel.addClassRelationList(tokenList.get(i) + ".methd"+tokenList.get(i+1)+".Aggregation");
+            i = i+3;
         }
         return i;
     }
 
     private int checkInstruction(ArrayList<String> tokenList, int i) {
 
-
-        while (!tokenList.get(i).equals("if") && !tokenList.get(i).equals("while") && !tokenList.get(i).equals("for") && !tokenList.get(i).equals("class") && !tokenList.get(i).equals("}") && !tokenList.get(i).contains(".")) {
+        while (!tokenList.get(i).equals("if") && !tokenList.get(i).equals("while") && !tokenList.get(i).equals("for") && !tokenList.get(i).equals("class") && !tokenList.get(i).equals("}") && !tokenList.get(i).contains(".") && !tokenList.get(i+1).equals("(") && !classList.contains(tokenList.get(i))) {
             i++;
             while (!tokenList.get(i).equals(";")) {
                 i++;
