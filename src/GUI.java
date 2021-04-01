@@ -2,61 +2,42 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener {
 
-    JTextArea editor = new JTextArea();
+    JTextArea editor;
     Lexer lexer = new Lexer();
 
-    public Main(String path) throws IOException {
-//        String inputCode = readTextFile(path);
-//        Tokenizer tokenizer = new Tokenizer();
+    public GUI() throws HeadlessException {
+    }
 
-
-        UMLPlotter umlPlotter = new UMLPlotter();
-        lexer.addObserver(umlPlotter);
-        //ArrayList<String> tokenList = tokenizer.getTokens(inputCode);
-//        System.out.println(tokenList);
-        //lexer.parseToken(tokenList);
-
-        createGui(umlPlotter);
+    public GUI(String path) throws IOException {
+        createGui();
     }
 
     public static void main(String[] args) throws IOException {
 
         if (args.length > 0) {
-            new Main(args[0]);
+            new GUI(args[0]);
         } else {
             throw new FileNotFoundException("Please pass a file in argument");
         }
     }
 
-//    public String readTextFile(String path) throws IOException {
-//
-//        StringBuilder code = new StringBuilder();
-//        BufferedReader br = new BufferedReader(new FileReader(path));
-//        String str;
-//        while ((str = br.readLine()) != null) code.append(str).append(" ");
-//
-//        return code.toString().replaceAll("\\s+", " ").trim();
-//    }
 
-    private void createGui(UMLPlotter umlPlotter) {
+    private void createGui() {
 
-        //UMLPlotter umlPlotter = new UMLPlotter();
+        UMLPlotter umlPlotter = new UMLPlotter();
+        lexer.addObserver(umlPlotter);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.X_AXIS));
-        //setLayout(null);
-        //setLayout(new GridLayout(4,0));
+        editor = new JTextArea();
         editor.setLineWrap(true);
         JScrollPane scrollPane = new JScrollPane(editor);
         scrollPane.setPreferredSize(new Dimension(250, 800));
-        //scrollPane.setBounds(0, 0, 300, 800);
         scrollPane.setBackground(new Color(235, 235, 235));
         scrollPane.getViewport().setBackground(new Color(255, 255, 255));
 
@@ -93,7 +74,6 @@ public class Main extends JFrame implements ActionListener {
 
         if (buttonName.equals("Run")) {
             System.out.println("+++++++++++++++++");
-            //System.out.println(inputText);
             Tokenizer tokenizer = new Tokenizer();
 
             StringBuilder code = new StringBuilder();
@@ -111,8 +91,7 @@ public class Main extends JFrame implements ActionListener {
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-        }
-        else if (buttonName.equals("Exit")) {
+        } else if (buttonName.equals("Exit")) {
             System.exit(0);
         }
     }

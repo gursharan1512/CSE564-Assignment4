@@ -11,7 +11,6 @@ public class Tokenizer {
 
     public ArrayList<String> getTokens(String inputCode) {
 
-        //System.out.println(inputCode);
 
         int charPosition = 0;
         char[] inputChar = inputCode.toCharArray();
@@ -27,7 +26,6 @@ public class Tokenizer {
                     charPosition++;
                 }
             }
-            //System.out.println(inputCode.substring(charPosition));
         }
 
         if (isString) {

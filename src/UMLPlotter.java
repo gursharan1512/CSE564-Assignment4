@@ -19,6 +19,20 @@ public class UMLPlotter extends JPanel implements Observer {
         joiner1.setNextUMLClassJoiner(joiner2);
         joiner2.setNextUMLClassJoiner(joiner3);
         Drawable umlConditionPlot = new UMLConditionPlot(umlLoopPlot);
+
+        for (UMLClassModel classAttribute : classAttributes) {
+            if (classAttribute.getClassRelationList() != null) {
+                for (String classRelation : classAttribute.getClassRelationList()) {
+                    String[] strArr = classRelation.split("\\.");
+                    try {
+                        drawConnection(classAttribute, strArr[0], strArr[1], strArr[2], g, joiner1);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                        System.exit(0);
+                    }
+                }
+            }
+        }
         for (UMLClassModel classAttribute : classAttributes) {
             if (!classAttribute.getMethodDetailsList().isEmpty()) {
                 setUMLDimension(classAttribute);
@@ -45,13 +59,7 @@ public class UMLPlotter extends JPanel implements Observer {
                 umlBasicPlot.draw(g, classAttribute);
             }
 
-            if (classAttribute.getClassRelationList() != null) {
-                for (String classRelation : classAttribute.getClassRelationList()) {
-                    String[] strArr = classRelation.split("\\.");
-//                    joiner1.drawRelationship(classAttribute, strArr[0], strArr[2], g);
-                    drawConnection(classAttribute, strArr[0], strArr[2], g, joiner1);
-                }
-            }
+
 
         }
     }
@@ -70,13 +78,6 @@ public class UMLPlotter extends JPanel implements Observer {
         this.removeAll();
         this.revalidate();
         classAttributes = (ArrayList<UMLClassModel>) arg;
-//        for (UMLClassModel umlClassModel: classAttributes) {
-//            System.out.println(umlClassModel.getClassName()+" "+
-//                    umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+
-//                    umlClassModel.getClassRelationList()+" "+
-//                    umlClassModel.getxAxis()+" "+
-//                    umlClassModel.getyAxis());
-//        }
         this.paint(getGraphics());
     }
 
@@ -85,26 +86,26 @@ public class UMLPlotter extends JPanel implements Observer {
         return new Dimension(1150, 800);
     }
 
-    public void printDetails() {
-        //System.out.println("print observer classes:" + classAttributes);
-    }
 
-    private void drawConnection(UMLClassModel sourceClass, String destClass, String connection, Graphics g, UMLCLassJoiner joiner1) {
+    private void drawConnection(UMLClassModel sourceClass, String destClass, String methodName, String connection, Graphics g, UMLCLassJoiner joiner1) throws ClassNotFoundException {
         UMLClassModel destClassObj = null;
         boolean invalidClassRelationship = true;
         for (UMLClassModel classAttribute : classAttributes) {
             if (destClass.equals(classAttribute.getClassName())) {
                 destClassObj = classAttribute;
-                invalidClassRelationship = false;
+                ArrayList<MethodDetails> methodDetails = destClassObj.getMethodDetailsList();
+                for (MethodDetails methodDetail : methodDetails){
+                    if (methodName.equals(methodDetail.getMethodName())){
+                        invalidClassRelationship = false;
+                        break;
+                    }
+                }
                 break;
             }
         }
         if (invalidClassRelationship) {
-            try {
-                throw new ClassNotFoundException("No valid Destination class found with class name: " + destClass);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+                throw new ClassNotFoundException("Invalid Destination class or Method name: " + destClass + " " + methodName);
+
         }
 
         if (destClassObj != null) {
@@ -136,7 +137,6 @@ public class UMLPlotter extends JPanel implements Observer {
 
             }
             g.setColor(Color.GREEN);
-            g.drawLine(x1, y1, x2, y2);
             joiner1.drawRelationship(x1, y1, x2, y2, connection, g);
 
         }

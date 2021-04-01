@@ -23,8 +23,8 @@ public class UMLConditionPlot extends DecoratorPlot {
         for (MethodDetails methodDetail : methodDetails) {
             if (methodDetail.isIfCheck()) {
 
-                int xpoints[] = {x, x - heightOfTriangle / 2, x + heightOfTriangle / 2};
-                int ypoints[] = {z, z + heightOfTriangle, z + heightOfTriangle};
+                int[] xpoints = {x, x - heightOfTriangle / 2, x + heightOfTriangle / 2};
+                int[] ypoints = {z, z + heightOfTriangle, z + heightOfTriangle};
                 int npoints = 3;
                 g.fillPolygon(xpoints, ypoints, npoints);
                 g.drawPolygon(xpoints, ypoints, npoints);

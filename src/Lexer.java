@@ -15,15 +15,11 @@ public class Lexer extends Observable {
                 i = checkInstruction(tokenList, i);
                 i = checkClass(tokenList, i);
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new Exception("Invalid Syntax");
         }
         setChanged();
         notifyObservers(umlClassModels);
-//        for (UMLClassModel umlClassModel: umlClassModels) {
-//            System.out.println(umlClassModel.getClassName()+" "+umlClassModel.getMethodDetailsList().get(0).getMethodName()+" "+umlClassModel.getClassRelationList());
-//        }
     }
 
     private int checkClass(ArrayList<String> tokenList, int i) {
@@ -50,9 +46,6 @@ public class Lexer extends Observable {
                 }
                 if (tokenList.get(i).equals("}")) {
                     umlClassModels.add(umlClassModel);
-//                    System.out.println("notifying the observers");
-//                    setChanged();
-//                    notifyObservers(umlClassModel);
                     return i;
                 } else {
                     throw new RuntimeException("Invalid Syntax");
@@ -107,7 +100,6 @@ public class Lexer extends Observable {
 
     private int checkAggregation(ArrayList<String> tokenList, int i, UMLClassModel umlClassModel) {
 
-        //System.out.println(tokenList.get(i));
         if (tokenList.get(i).contains(".")) {
             umlClassModel.addClassRelationList(tokenList.get(i) + ".Aggregation");
             i++;
@@ -124,12 +116,8 @@ public class Lexer extends Observable {
 
     private int checkInstruction(ArrayList<String> tokenList, int i) {
 
-//        for(int j = 0; j< 20; j++) {
-//            System.out.println(tokenList.get(i+j));
-//        }
 
         while (!tokenList.get(i).equals("if") && !tokenList.get(i).equals("while") && !tokenList.get(i).equals("for") && !tokenList.get(i).equals("class") && !tokenList.get(i).equals("}") && !tokenList.get(i).contains(".")) {
-            //System.out.println(tokenList.get(i));
             i++;
             while (!tokenList.get(i).equals(";")) {
                 i++;

@@ -12,7 +12,6 @@ public class UMLLoopPlot extends DecoratorPlot {
         int x = umlClassModel.getxAxis() + 30;
         int y = umlClassModel.getyAxis();
         int z = y + 60;
-        //int methodCount = umlClassModel.getMethodDetailsList().size();
         ArrayList<MethodDetails> methodDetails = umlClassModel.getMethodDetailsList();
         int radiusOfCircle = umlClassModel.getHeightOfComponent() - Constants.MARGIN;
         for (MethodDetails methodDetail : methodDetails) {

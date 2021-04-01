@@ -13,13 +13,14 @@ class anyNameIsOk {
 			if (wxy=123) {
 				while(a1 == x7 ) {
 					B.home()
-					gfyurguygf;
 					frvrvrvr;
 				}
 			}
 		}
 	}
 	main2 () {
+
+
 
 	}
 	main () {
